@@ -4,6 +4,8 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .models import Car, Article, ContactMessage
 from .forms import ContactForm
+from .models import Article, Comment
+from .models import Subscriber
 
 def home(request):
     featured_cars = Car.objects.filter(featured=True)[:5]
@@ -77,5 +79,38 @@ def car_inquiry(request):
 
         messages.success(request, 'Tu consulta ha sido enviada. Nos pondremos en contacto contigo pronto.')
         return redirect('car_detail', car_id=car_id)
+    else:
+        return redirect('home')
+
+
+def article_comment(request, article_id):
+    if request.method == 'POST':
+        article = get_object_or_404(Article, id=article_id)
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        comment_text = request.POST.get('comment')
+
+        # Guarda el comentario en la base de datos
+        Comment.objects.create(
+            article=article,
+            name=name,
+            email=email,
+            comment=comment_text
+        )
+
+        messages.success(request, 'Tu comentario ha sido enviado. ¡Gracias!')
+        return redirect('article_detail', article_id=article_id)
+    else:
+        return redirect('home')
+
+def subscribe(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        # Guarda el correo electrónico en la base de datos
+        Subscriber.objects.create(email=email)
+
+        messages.success(request, '¡Gracias por suscribirte!')
+        return redirect('home')
     else:
         return redirect('home')
