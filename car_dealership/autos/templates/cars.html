@@ -81,7 +81,8 @@
             {% for car in cars %}
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card car-card h-100">
-                        <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.brand }} {{ car.model }}">
+                        <!-- Cambia esta línea -->
+                        <img src="{{ car.image_url }}" class="card-img-top" alt="{{ car.brand }} {{ car.model }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ car.year }} {{ car.brand }} {{ car.model }}</h5>
                             <p class="car-price text-danger">${{ car.price|floatformat:0|intcomma }}</p>

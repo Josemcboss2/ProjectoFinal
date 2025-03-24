@@ -70,3 +70,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+// Obtén el interruptor de modo oscuro
+const darkModeToggle = document.getElementById('darkModeToggle');
+
+// Verifica si el modo oscuro está activo en el localStorage
+if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+    darkModeToggle.checked = true;
+}
+
+// Escucha el cambio en el interruptor
+darkModeToggle.addEventListener('change', function() {
+    if (this.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'enabled');  // Guarda la preferencia en el localStorage
+    } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'disabled');  // Guarda la preferencia en el localStorage
+    }
+});

@@ -8,7 +8,7 @@ class Car(models.Model):
     category = models.CharField(max_length=50, choices=[('sedan', 'Sedán'), ('suv', 'SUV'), ('sports', 'Deportivo'), ('pickup', 'Pickup')])
     condition = models.CharField(max_length=50)
     description = models.TextField()
-    image = models.ImageField(upload_to='cars/')
+    image_url = models.URLField() 
     featured = models.BooleanField(default=False)
 
     def __str__(self):
@@ -17,7 +17,7 @@ class Car(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    image = models.ImageField(upload_to='articles/', null=True, blank=True)
+    image_url = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
