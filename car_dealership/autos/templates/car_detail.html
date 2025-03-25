@@ -18,7 +18,16 @@
         <!-- Car Images -->
         <div class="col-lg-7 mb-4">
             <div class="car-image-container">
-                <img src="{{ car.image.url }}" class="img-fluid rounded" alt="{{ car.brand }} {{ car.model }}">
+                {% if car.image %}
+     <img src="{{ car.image.url }}" class="img-fluid rounded">
+     {% if car.image %}
+     <img src="{{ car.image.url }}" class="img-fluid rounded" alt="{{ car.brand }} {{ car.model }}">
+ {% elif car.image_url %}
+     <img src="{{ car.image_url }}" class="img-fluid rounded" alt="{{ car.brand }} {{ car.model }}" 
+          onerror="this.onerror=null; this.src='{% static 'images/default-car.jpg' %}'">
+ {% else %}
+     <img src="{% static 'images/default-car.jpg' %}" class="img-fluid rounded" alt="{{ car.brand }} {{ car.model }}">
+ {% endif %}
             </div>
         </div>
 

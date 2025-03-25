@@ -15,7 +15,10 @@
     <div class="carousel-inner">
         {% for car in featured_cars %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ car.image_url }}" class="d-block w-100" alt="{{ car.brand }} {{ car.model }}">
+                <img src="{% if car.image_url %}{{ car.image_url }}{% else %}{% static 'images/default-car.jpg' %}{% endif %}" 
+                class="d-block w-100" 
+                alt="{{ car.brand }} {{ car.model }}">
+
                 <div class="carousel-caption d-none d-md-block">
                     <h2>{{ car.year }} {{ car.brand }} {{ car.model }}</h2>
                     <p>${{ car.price }}</p>

@@ -7,6 +7,8 @@
 <!-- Incluye Font Awesome para los iconos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 <div class="container">
     <div class="row mb-5">
@@ -135,5 +137,58 @@
         });
     }, false);
 })();
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mostrar popup de éxito
+            Swal.fire({
+                title: '¡Éxito!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonText: 'OK',
+                position: 'top-end',
+                toast: true,
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+            
+            // Limpiar formulario
+            form.reset();
+        } else {
+            // Mostrar errores de validación
+            for (const [field, errors] of Object.entries(data.errors)) {
+                const input = form.querySelector(`[name="${field}"]`);
+                if (input) {
+                    input.classList.add('is-invalid');
+                    const feedback = input.nextElementSibling || input.parentNode.querySelector('.invalid-feedback');
+                    if (feedback) {
+                        feedback.textContent = errors.join(' ');
+                    }
+                }
+            }
+        }
+    })
+    .catch(error => {
+        Swal.fire({
+            title: 'Error',
+            text: 'Ocurrió un error al enviar el formulario',
+            icon: 'error'
+        });
+    });
+});
 </script>
 {% endblock %}

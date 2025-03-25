@@ -10,7 +10,10 @@ class Car(models.Model):
     description = models.TextField()
     image_url = models.URLField() 
     featured = models.BooleanField(default=False)
-
+    image = models.ImageField(upload_to='cars/', blank=True, null=True)
+    image_url = models.URLField(max_length=500, blank=True, null=True)
+    
+    
     def __str__(self):
         return f"{self.year} {self.brand} {self.model}"
 

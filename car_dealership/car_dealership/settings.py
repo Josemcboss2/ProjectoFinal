@@ -137,3 +137,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'tu_correo@gmail.com'
 EMAIL_HOST_PASSWORD = 'tu_contraseña'
+
+# Configuración de la aplicación de inicio
+LOGIN_REDIRECT_URL = 'autos:all_autos'
+LOGOUT_REDIRECT_URL = 'autos:all_autos'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+DEFAULT_CHARSET = 'utf-8'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

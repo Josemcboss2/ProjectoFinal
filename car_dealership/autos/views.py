@@ -9,9 +9,11 @@ from .models import Subscriber
 from django.http import HttpResponse
 from django.core.mail import EmailMultiAlternatives
 from .forms import ContactForm
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 def home(request):
-    featured_cars = Car.objects.filter(featured=True)[:5]
+    featured_cars = Car.objects.all().order_by('-id')[:3]  # Últimos 3 coches
     latest_articles = Article.objects.order_by('-created_at')[:3]
     return render(request, 'home.html', {
         'featured_cars': featured_cars,
@@ -28,7 +30,11 @@ def cars(request):
 
 def car_detail(request, car_id):
     car = get_object_or_404(Car, id=car_id)
-    return render(request, 'car_detail.html', {'car': car})
+    related_cars = Car.objects.exclude(id=car_id)[:3]
+    return render(request, 'car_detail.html', {
+        'car': car,
+        'related_cars': related_cars
+    })
 
 def articles(request):
     articles_list = Article.objects.order_by('-created_at')
@@ -39,20 +45,34 @@ def article_detail(request, article_id):
     return render(request, 'article_detail.html', {'article': article})
 
 
+
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
+            # Procesa el formulario (envía el email, etc.)
             name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
-
-            # Tu lógica de envío de email aquí...
-            return HttpResponse('¡Mensaje enviado!')
+            
+            # Si es una petición AJAX
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': f'¡Gracias {name}! Tu mensaje ha sido enviado.'
+                })
+            else:
+                return HttpResponse('¡Mensaje enviado!')
+        
+        # Si hay errores
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'errors': dict(form.errors.items())
+            }, status=400)
+    
     else:
-        form = ContactForm()  # Formulario vacío para GET
-
-    return render(request, 'contact.html', {'form': form})  # Pasa el formulario al template
+        form = ContactForm()
+    
+    return render(request, 'contact.html', {'form': form})
 
 def privacy(request):
     return render(request, 'privacy.html')
