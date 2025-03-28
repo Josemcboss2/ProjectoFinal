@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -21,12 +20,56 @@ def home(request):
     })
 
 def cars(request):
+    # Obtener todos los carros inicialmente
+    cars_list = Car.objects.all()
+    
+    # Filtrar por categoría
     category = request.GET.get('category')
     if category:
-        cars_list = Car.objects.filter(category=category)
-    else:
-        cars_list = Car.objects.all()
-    return render(request, 'cars.html', {'cars': cars_list})
+        cars_list = cars_list.filter(category=category)
+    
+    # Filtrar por marca
+    brand = request.GET.get('brand')
+    if brand:
+        cars_list = cars_list.filter(brand=brand)
+    
+    # Filtrar por año
+    year = request.GET.get('year')
+    if year:
+        cars_list = cars_list.filter(year=year)
+    
+    # Filtrar por precio máximo
+    max_price = request.GET.get('max_price')
+    if max_price:
+        cars_list = cars_list.filter(price__lte=max_price)
+    
+    # Ordenar resultados
+    sort = request.GET.get('sort')
+    if sort:
+        if sort == 'price_asc':
+            cars_list = cars_list.order_by('price')
+        elif sort == 'price_desc':
+            cars_list = cars_list.order_by('-price')
+        elif sort == 'year_desc':
+            cars_list = cars_list.order_by('-year')
+    
+    # Obtener años únicos para el filtro
+    years = Car.objects.values_list('year', flat=True).distinct().order_by('-year')
+    
+    # Obtener marcas únicas para el filtro
+    brands = Car.objects.values('brand').distinct().order_by('brand')
+    
+    context = {
+        'cars': cars_list,
+        'years': years,
+        'brands': brands,
+        'selected_category': category,
+        'selected_year': year,
+        'selected_brand': brand,
+        'max_price': max_price
+    }
+    
+    return render(request, 'cars.html', context)
 
 def car_detail(request, car_id):
     car = get_object_or_404(Car, id=car_id)

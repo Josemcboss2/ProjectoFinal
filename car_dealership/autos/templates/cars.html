@@ -18,7 +18,7 @@
                             <select class="form-select" id="brand" name="brand">
                                 <option value="">Todas las marcas</option>
                                 {% for brand in brands %}
-                                    <option value="{{ brand.id }}" {% if selected_brand == brand.id %}selected{% endif %}>{{ brand.name }}</option>
+                                    <option value="{{ brand.brand }}" {% if selected_brand == brand.brand %}selected{% endif %}>{{ brand.brand }}</option>
                                 {% endfor %}
                             </select>
                         </div>
