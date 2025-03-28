@@ -42,7 +42,7 @@
             <div class="card featured-article">
                 <div class="row g-0">
                     <div class="col-md-6">
-                        <img src="{{ featured_article.image.url }}" class="img-fluid rounded-start" alt="{{ featured_article.title }}">
+                        <img src="{{ featured_article.image_url }}" class="img-fluid rounded-start" alt="{{ featured_article.title }}">
                     </div>
                     <div class="col-md-6">
                         <div class="card-body h-100 d-flex flex-column">
@@ -66,8 +66,8 @@
         {% for article in articles %}
         <div class="col-md-6 col-lg-4 mb-4 article-card" data-category="{{ article.category|default:'noticias' }}">
             <div class="card h-100">
-                {% if article.image %}
-                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                {% if article.image_url %}
+                <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}">
                 {% else %}
                 <img src="{% static 'images/article-placeholder.jpg' %}" class="card-img-top" alt="Placeholder">
                 {% endif %}

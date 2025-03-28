@@ -17,10 +17,21 @@ class Car(models.Model):
     def __str__(self):
         return f"{self.year} {self.brand} {self.model}"
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
 class Article(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    image_url = models.URLField()
+    image_url = models.URLField(max_length=500)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='articles')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -26,13 +26,8 @@
                     </div>
                 </header>
 
-                {% if article.image %}
-                <div class="article-featured-image mb-4">
-                    <img src="{{ article.image.url }}" alt="{{ article.title }}" class="img-fluid rounded">
-                    {% if article.image_caption %}
-                    <figcaption class="text-center text-muted mt-2">{{ article.image_caption }}</figcaption>
-                    {% endif %}
-                </div>
+                {% if article.image_url %}
+                    <img src="{{ article.image_url }}" class="img-fluid rounded" alt="{{ article.title }}">
                 {% endif %}
 
                 <div class="article-body">

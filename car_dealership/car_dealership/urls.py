@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Ruta para el panel de administración
-    path('', include('autos.urls')),  # Redirige la ruta raíz a la aplicación 'autos'
-]
+    path('admin/', admin.site.urls),
+    path('', include('autos.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

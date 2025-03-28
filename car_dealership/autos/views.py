@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.contrib import messages
-from .models import Car, Article, ContactMessage
+from .models import Car, Article, ContactMessage, Category
 from .forms import ContactForm
 from .models import Article, Comment
 from .models import Subscriber
@@ -80,8 +80,20 @@ def car_detail(request, car_id):
     })
 
 def articles(request):
-    articles_list = Article.objects.order_by('-created_at')
-    return render(request, 'articles.html', {'articles': articles_list})
+    articles_list = Article.objects.all()
+    categories = Category.objects.all()
+    
+    # Filtrar por categoría
+    category = request.GET.get('category')
+    if category:
+        articles_list = articles_list.filter(category__slug=category)
+    
+    context = {
+        'articles': articles_list,
+        'categories': categories,
+        'selected_category': category
+    }
+    return render(request, 'articles.html', context)
 
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
@@ -166,14 +178,14 @@ def article_comment(request, article_id):
     else:
         return redirect('home')
 
+    
 def subscribe(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-
-        # Guarda el correo electrónico en la base de datos
-        Subscriber.objects.create(email=email)
-
-        messages.success(request, '¡Gracias por suscribirte!')
-        return redirect('home')
-    else:
-        return redirect('home')
+        try:
+            Subscriber.objects.create(email=email)
+            messages.success(request, '¡Gracias por suscribirte!')
+        except:
+            messages.error(request, 'Este correo ya está suscrito.')
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+    return redirect('home')
