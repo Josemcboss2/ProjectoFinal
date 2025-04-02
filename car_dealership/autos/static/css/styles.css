@@ -9,8 +9,8 @@ body {
 
 /* Header Styles */
 .navbar {
-    background: linear-gradient(90deg, #ff7e5f, #feb47b);
-    border-bottom: 2px solid #ff6f61;
+    background: linear-gradient(90deg, #007bff, #66b2ff); /* Gradiente azul */
+    border-bottom: 2px solid #0056b3; /* Azul oscuro */
 }
 
 .navbar-brand {
@@ -25,7 +25,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #ffeb3b !important;
+    color: #cce5ff !important; /* Azul claro */
 }
 
 /* Hero Section */
@@ -60,11 +60,11 @@ body {
 }
 
 .category-card img {
-    border-bottom: 3px solid #ff6f61;
+    border-bottom: 3px solid #007bff; /* Azul principal */
 }
 
 .category-card .card-title {
-    color: #ff6f61;
+    color: #007bff; /* Azul principal */
     font-weight: bold;
 }
 
@@ -84,18 +84,18 @@ body {
 }
 
 .car-card img {
-    border-bottom: 3px solid #ff6f61;
+    border-bottom: 3px solid #007bff; /* Azul principal */
 }
 
 .car-price {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #ff6f61;
+    color: #007bff; /* Azul principal */
 }
 
 /* Buttons */
 .btn-primary {
-    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    background: linear-gradient(90deg, #007bff, #66b2ff); /* Gradiente azul */
     border: none;
     color: #fff;
     font-weight: bold;
@@ -103,24 +103,24 @@ body {
 }
 
 .btn-primary:hover {
-    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+    background: linear-gradient(90deg, #0056b3, #007bff); /* Gradiente azul oscuro */
 }
 
 .btn-outline-primary {
-    border: 2px solid #ff6f61;
-    color: #ff6f61;
+    border: 2px solid #007bff; /* Azul principal */
+    color: #007bff; /* Azul principal */
     font-weight: bold;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-    background: #ff6f61;
+    background: #007bff; /* Azul principal */
     color: #fff;
 }
 
 /* Footer */
 footer {
-    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    background: linear-gradient(90deg, #007bff, #66b2ff); /* Gradiente azul */
     color: #fff;
     padding: 20px 0;
     text-align: center;
@@ -134,7 +134,7 @@ footer a {
 }
 
 footer a:hover {
-    color: #ffeb3b;
+    color: #cce5ff; /* Azul claro */
 }
 
 /* Responsive adjustments */

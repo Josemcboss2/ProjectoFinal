@@ -132,17 +132,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'  # Cambia esto según tu proveedor de correo
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'tu_correo@gmail.com'
-EMAIL_HOST_PASSWORD = 'tu_contraseña'
+EMAIL_HOST_USER = 'tu_correo@example.com'  # Cambia esto por tu correo
+EMAIL_HOST_PASSWORD = 'tu_contraseña'      # Cambia esto por tu contraseña
+DEFAULT_CHARSET = 'utf-8'
 
 # Configuración de la aplicación de inicio
-LOGIN_REDIRECT_URL = 'autos:all_autos'
-LOGOUT_REDIRECT_URL = 'autos:all_autos'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-
-DEFAULT_CHARSET = 'utf-8'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+LOGIN_REDIRECT_URL = '/'  # Redirige al home después de iniciar sesión
+LOGOUT_REDIRECT_URL = '/'  # Redirige al home después de cerrar sesión
+LOGIN_URL = 'login'  # URL para la página de inicio de sesión
+LOGOUT_URL = 'logout'  # URL para la página de cierre de sesión

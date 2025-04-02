@@ -41,7 +41,7 @@
 <section class="text-center my-5">
     <h1 class="display-4">Bienvenido a Auto Elite</h1>
     <p class="lead">Su concesionario de confianza con la mejor selección de vehículos nuevos y usados.</p>
-    <button class="btn btn-primary btn-lg" onclick="showWelcomeAlert()">Conocer más</button>
+    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#aboutUsModal">Conocer más</button>
 </section>
 
 <!-- Featured Categories -->
@@ -50,34 +50,35 @@
     <div class="row">
         <div class="col-md-4 mb-4">
             <div class="card category-card">
-        <img src="https://www.wsupercars.com/wallpapers-regular/Mercedes-Benz/2025-Mercedes-AMG-GT63-S-E-Performance-4-Door-001-2160.jpg" class="card-img-top" alt="Sedanes">
-        <div class="card-body text-center">
-            <h3 class="card-title">Sedanes</h3>
-            <p class="card-text">Elegancia y confort para toda la familia</p>
-            <a href="{% url 'cars' %}?category=sedan" class="btn btn-outline-primary">Ver Sedanes</a>
+                <img src="https://www.wsupercars.com/wallpapers-regular/Mercedes-Benz/2025-Mercedes-AMG-GT63-S-E-Performance-4-Door-001-2160.jpg" class="card-img-top" alt="Sedanes">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Sedanes</h3>
+                    <p class="card-text">Elegancia y confort para toda la familia</p>
+                    <a href="{% url 'cars' %}?category=sedan" class="btn btn-outline-primary">Ver Sedanes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card category-card">
+                <img src="https://www.wsupercars.com/wallpapers-regular/Mercedes-Benz/2025-Mercedes-Benz-G58--with-EQ-Technology-001-2160.jpg" class="card-img-top" alt="SUVs">
+                <div class="card-body text-center">
+                    <h3 class="card-title">SUVs</h3>
+                    <p class="card-text">Versatilidad y espacio para todas tus aventuras</p>
+                    <a href="{% url 'cars' %}?category=suv" class="btn btn-outline-primary">Ver SUVs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card category-card">
+                <img src="https://www.wsupercars.com/wallpapers-regular/Lamborghini/2024-Lamborghini-Revuelto-Opera-Unica-001-2160.jpg" class="card-img-top" alt="Deportivos">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Deportivos</h3>
+                    <p class="card-text">Velocidad y adrenalina en su máxima expresión</p>
+                    <a href="{% url 'cars' %}?category=sports" class="btn btn-outline-primary">Ver Deportivos</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div class="col-md-4 mb-4">
-    <div class="card category-card">
-        <img src="https://www.wsupercars.com/wallpapers-regular/Mercedes-Benz/2025-Mercedes-Benz-G58--with-EQ-Technology-001-2160.jpg" class="card-img-top" alt="SUVs">
-        <div class="card-body text-center">
-            <h3 class="card-title">SUVs</h3>
-            <p class="card-text">Versatilidad y espacio para todas tus aventuras</p>
-            <a href="{% url 'cars' %}?category=suv" class="btn btn-outline-primary">Ver SUVs</a>
-        </div>
-    </div>
-</div>
-<div class="col-md-4 mb-4">
-    <div class="card category-card">
-        <img src="https://www.wsupercars.com/wallpapers-regular/Lamborghini/2024-Lamborghini-Revuelto-Opera-Unica-001-2160.jpg" class="card-img-top" alt="Deportivos">
-        <div class="card-body text-center">
-            <h3 class="card-title">Deportivos</h3>
-            <p class="card-text">Velocidad y adrenalina en su máxima expresión</p>
-            <a href="{% url 'cars' %}?category=sports" class="btn btn-outline-primary">Ver Deportivos</a>
-        </div>
-    </div>
-</div>
 </section>
 
 <!-- Latest News -->
@@ -106,4 +107,24 @@
         <a href="{% url 'articles' %}" class="btn btn-outline-primary">Ver todas las noticias</a>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="aboutUsModal" tabindex="-1" aria-labelledby="aboutUsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aboutUsModalLabel">Sobre Nosotros</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Somos una empresa dedicada a ofrecer los mejores vehículos del mercado. Nuestro objetivo es brindar una experiencia única a nuestros clientes, con un enfoque en calidad, confianza y satisfacción.</p>
+                <p>Contamos con un equipo de profesionales altamente capacitados para ayudarte a encontrar el auto de tus sueños.</p>
+                <p>¡Gracias por confiar en nosotros!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

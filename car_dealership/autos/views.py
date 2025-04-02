@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.contrib import messages
 from .models import Car, Article, ContactMessage, Category
 from .forms import ContactForm
@@ -10,6 +10,7 @@ from django.core.mail import EmailMultiAlternatives
 from .forms import ContactForm
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.contrib.auth.forms import UserCreationForm
 
 def home(request):
     featured_cars = Car.objects.all().order_by('-id')[:3]  # Últimos 3 coches
@@ -140,23 +141,35 @@ def car_inquiry(request):
         phone = request.POST.get('phone')
         message = request.POST.get('message')
 
-        # Obtén el coche relacionado con la consulta
-        car = Car.objects.get(id=car_id)
+        car = get_object_or_404(Car, id=car_id)
 
-        # Envía un correo electrónico
-        send_mail(
-            subject=f'Consulta sobre {car.brand} {car.model}',
-            message=f'Nombre: {name}\nEmail: {email}\nTeléfono: {phone}\nMensaje: {message}',
-            from_email=email,
-            recipient_list=['contacto@autoelite.com'],  # Cambia esto por tu correo
-            fail_silently=False,
+        # Crear el contenido del correo
+        subject = f"Consulta sobre el vehículo: {car.year} {car.brand} {car.model}"
+        body = (
+            f"Nombre: {name}\n"
+            f"Correo: {email}\n"
+            f"Teléfono: {phone}\n\n"
+            f"Mensaje:\n{message}"
         )
 
-        messages.success(request, 'Tu consulta ha sido enviada. Nos pondremos en contacto contigo pronto.')
-        return redirect('car_detail', car_id=car_id)
-    else:
-        return redirect('home')
+        # Configurar el correo con codificación UTF-8
+        email_message = EmailMessage(
+            subject=subject,
+            body=body,
+            from_email='joseanibalmencia@gmail.com',  # Cambia esto por tu correo
+            to=['destinatario@example.com'],    # 
+        )
+        email_message.encoding = 'utf-8'  # Asegúrate de usar UTF-8
 
+        try:
+            email_message.send()
+            messages.success(request, '¡Tu consulta ha sido enviada con éxito!')
+        except Exception as e:
+            messages.error(request, f'Error al enviar el correo: {e}')
+
+        return redirect('cars')
+
+    return redirect('home')
 
 def article_comment(request, article_id):
     if request.method == 'POST':
@@ -189,3 +202,14 @@ def subscribe(request):
             messages.error(request, 'Este correo ya está suscrito.')
         return redirect(request.META.get('HTTP_REFERER', 'home'))
     return redirect('home')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '¡Tu cuenta ha sido creada exitosamente! Ahora puedes iniciar sesión.')
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})

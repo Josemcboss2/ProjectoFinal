@@ -12,4 +12,5 @@ urlpatterns = [
     path('car_inquiry/', views.car_inquiry, name='car_inquiry'),
     path('articles/<int:article_id>/comment/', views.article_comment, name='article_comment'), 
     path('subscribe/', views.subscribe, name='subscribe'),
+    path('register/', views.register, name='register'),
 ]
