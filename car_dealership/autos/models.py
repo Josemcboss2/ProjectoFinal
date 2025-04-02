@@ -5,14 +5,8 @@ class Car(models.Model):
     model = models.CharField(max_length=100)
     year = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.CharField(max_length=50, choices=[('sedan', 'Sedán'), ('suv', 'SUV'), ('sports', 'Deportivo'), ('pickup', 'Pickup')])
-    condition = models.CharField(max_length=50)
     description = models.TextField()
-    image_url = models.URLField() 
-    featured = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='cars/', blank=True, null=True)
-    image_url = models.URLField(max_length=500, blank=True, null=True)
-    
+    image_url = models.URLField(max_length=500, blank=True, null=True)  # Solo se usará este campo para imágenes
     
     def __str__(self):
         return f"{self.year} {self.brand} {self.model}"

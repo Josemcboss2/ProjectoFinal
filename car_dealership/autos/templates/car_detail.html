@@ -18,16 +18,9 @@
         <!-- Car Images -->
         <div class="col-lg-7 mb-4">
             <div class="car-image-container">
-                {% if car.image %}
-     <img src="{{ car.image.url }}" class="img-fluid rounded">
-     {% if car.image %}
-     <img src="{{ car.image.url }}" class="img-fluid rounded" alt="{{ car.brand }} {{ car.model }}">
- {% elif car.image_url %}
-     <img src="{{ car.image_url }}" class="img-fluid rounded" alt="{{ car.brand }} {{ car.model }}" 
-          onerror="this.onerror=null; this.src='{% static 'images/default-car.jpg' %}'">
- {% else %}
-     <img src="{% static 'images/default-car.jpg' %}" class="img-fluid rounded" alt="{{ car.brand }} {{ car.model }}">
- {% endif %}
+                <img src="{% if car.image_url %}{{ car.image_url }}{% else %}{% static 'images/default-car.jpg' %}{% endif %}" 
+                     class="img-fluid rounded" 
+                     alt="{{ car.brand }} {{ car.model }}">
             </div>
         </div>
 
@@ -100,7 +93,9 @@
         {% for related_car in related_cars %}
         <div class="col-md-4 mb-4">
             <div class="card h-100 car-card">
-                <img src="{{ related_car.image.url }}" class="card-img-top" alt="{{ related_car.brand }} {{ related_car.model }}">
+                <img src="{% if related_car.image_url %}{{ related_car.image_url }}{% else %}{% static 'images/default-car.jpg' %}{% endif %}" 
+                     class="card-img-top" 
+                     alt="{{ related_car.brand }} {{ related_car.model }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ related_car.year }} {{ related_car.brand }} {{ related_car.model }}</h5>
                     <p class="car-price">${{ related_car.price|floatformat:2 }}</p>
