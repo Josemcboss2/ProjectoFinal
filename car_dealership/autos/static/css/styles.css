@@ -2,12 +2,30 @@
 body {
     font-family: 'Roboto', sans-serif;
     color: #333;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
 }
 
 /* Header Styles */
+.navbar {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    border-bottom: 2px solid #ff6f61;
+}
+
 .navbar-brand {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    color: #fff !important;
+}
+
+.nav-link {
+    color: #fff !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ffeb3b !important;
 }
 
 /* Hero Section */
@@ -23,52 +41,100 @@ body {
 .carousel-caption {
     background-color: rgba(0, 0, 0, 0.6);
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
+    color: #fff;
 }
 
 /* Card Hover Effects */
 .category-card {
     transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .category-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.category-card img {
+    border-bottom: 3px solid #ff6f61;
+}
+
+.category-card .card-title {
+    color: #ff6f61;
+    font-weight: bold;
 }
 
 /* Car Listing */
 .car-card {
     margin-bottom: 2rem;
     border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.car-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.car-card img {
+    border-bottom: 3px solid #ff6f61;
 }
 
 .car-price {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #dc3545;
-}
-
-/* Contact Form */
-.contact-form {
-    background-color: #f8f9fa;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.social-icons a {
     font-size: 1.5rem;
-    transition: color 0.3s;
+    font-weight: bold;
+    color: #ff6f61;
 }
 
-.social-icons a:hover {
-    color: #dc3545 !important;
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+}
+
+.btn-outline-primary {
+    border: 2px solid #ff6f61;
+    color: #ff6f61;
+    font-weight: bold;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: #ff6f61;
+    color: #fff;
 }
 
 /* Footer */
 footer {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
     box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #ffeb3b;
 }
 
 /* Responsive adjustments */

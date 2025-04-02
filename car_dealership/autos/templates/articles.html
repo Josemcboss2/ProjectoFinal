@@ -26,11 +26,11 @@
         <div class="col-md-4">
             <select class="form-select" id="categoryFilter">
                 <option value="">Todas las categorías</option>
-                <option value="noticias">Noticias</option>
-                <option value="tendencias">Tendencias</option>
-                <option value="consejos">Consejos</option>
-                <option value="mantenimiento">Mantenimiento</option>
-                <option value="comparativas">Comparativas</option>
+                {% for category in categories %}
+                    <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
             </select>
         </div>
     </div>

@@ -17,3 +17,5 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
     fields = ('title', 'category', 'content', 'image_url')  # Define el orden de los campos en el formulario
     autocomplete_fields = ['category']  # Permite autocompletar la categoría
+
+    
