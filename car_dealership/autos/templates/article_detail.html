@@ -1,0 +1,312 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ article.title }} | Auto Elite{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'articles' %}">Noticias</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Main Article Content -->
+        <div class="col-lg-8">
+            <article class="article-content bg-white p-4 rounded shadow-sm">
+                <header class="mb-4">
+                    <h1 class="article-title fw-bold">{{ article.title }}</h1>
+                    <div class="article-meta text-muted">
+                        <span class="me-3"><i class="far fa-calendar me-1"></i>{{ article.created_at|date:"d F, Y" }}</span>
+                        <span><i class="far fa-user me-1"></i>Auto Elite Staff</span>
+                    </div>
+                </header>
+
+                {% if article.image_url %}
+                    <img src="{{ article.image_url }}" class="img-fluid rounded" alt="{{ article.title }}">
+                {% endif %}
+
+                <div class="article-body">
+                    {{ article.content|safe|linebreaks }}
+                </div>
+
+                <footer class="article-footer mt-5 pt-4 border-top">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="article-tags">
+                                {% if article.tags.all %}
+                                <strong class="me-2">Etiquetas:</strong>
+                                {% for tag in article.tags.all %}
+                                <a href="{% url 'articles' %}?tag={{ tag.slug }}" class="badge bg-secondary text-decoration-none me-1">{{ tag.name }}</a>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="article-share text-md-end mt-3 mt-md-0">
+                                <span class="me-2">Compartir:</span>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-sm btn-outline-primary me-1" title="Compartir en Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ article.title }}" target="_blank" class="btn btn-sm btn-outline-info me-1" title="Compartir en Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://wa.me/?text={{ article.title }}%20{{ request.build_absolute_uri }}" target="_blank" class="btn btn-sm btn-outline-success me-1" title="Compartir en WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="mailto:?subject={{ article.title }}&body={{ request.build_absolute_uri }}" class="btn btn-sm btn-outline-secondary" title="Compartir por Email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </article>
+
+            <!-- Comments Section -->
+            <section class="article-comments mt-5">
+                <h3 class="mb-4">Comentarios <span class="badge bg-secondary">{{ comments_count }}</span></h3>
+                
+                {% if comments %}
+                <div class="comments-list">
+                    {% for comment in comments %}
+                    <div class="comment p-3 mb-3 bg-light rounded">
+                        <div class="comment-header d-flex justify-content-between">
+                            <div class="comment-author">
+                                <span class="fw-bold">{{ comment.name }}</span>
+                            </div>
+                            <div class="comment-date text-muted">
+                                <small>{{ comment.created_at|date:"d M, Y H:i" }}</small>
+                            </div>
+                        </div>
+                        <div class="comment-body mt-2">
+                            <p class="mb-0">{{ comment.content }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No hay comentarios aún. ¡Sé el primero en comentar!</p>
+                {% endif %}
+
+                <!-- Comment Form -->
+                <div class="comment-form-wrapper mt-4 p-4 bg-light rounded">
+                    <h4 class="mb-3">Deja un comentario</h4>
+                    <form id="commentForm" method="post" action="{% url 'article_comment' article.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="commentName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="commentName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="commentEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="commentEmail" name="email" required>
+                            <div class="form-text">Tu email no será publicado</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="commentContent" class="form-label">Comentario</label>
+                            <textarea class="form-control" id="commentContent" name="content" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publicar comentario</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4 mt-5 mt-lg-0">
+            <!-- About Author -->
+            <div class="sidebar-widget mb-4 p-4 bg-white rounded shadow-sm">
+                <h4 class="widget-title mb-3">Auto Elite Blog</h4>
+                <div class="d-flex align-items-center">
+                    <img src="{% static 'images/logo.png' %}" alt="Auto Elite" class="rounded-circle me-3" width="60">
+                    <div>
+                        <p class="mb-0">Todo lo que necesitas saber sobre el mundo automotriz, las últimas tendencias y los mejores consejos para tu vehículo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Widget -->
+            <div class="sidebar-widget mb-4 p-4 bg-white rounded shadow-sm">
+                <h4 class="widget-title mb-3">Buscar</h4>
+                <form action="{% url 'articles' %}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar artículos..." name="search">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Recent Articles -->
+            <div class="sidebar-widget mb-4 p-4 bg-white rounded shadow-sm">
+                <h4 class="widget-title mb-3">Artículos recientes</h4>
+                <div class="recent-articles">
+                    {% for recent_article in recent_articles %}
+                    <div class="recent-article d-flex align-items-center mb-3 pb-3 {% if not forloop.last %}border-bottom{% endif %}">
+                        {% if recent_article.image %}
+                        <a href="{% url 'article_detail' recent_article.id %}" class="recent-article-image me-3">
+                            <img src="{{ recent_article.image.url }}" alt="{{ recent_article.title }}" class="img-fluid rounded" style="width: 70px; height: 50px; object-fit: cover;">
+                        </a>
+                        {% endif %}
+                        <div class="recent-article-info">
+                            <h5 class="recent-article-title mb-1">
+                                <a href="{% url 'article_detail' recent_article.id %}" class="text-decoration-none">{{ recent_article.title|truncatechars:50 }}</a>
+                            </h5>
+                            <span class="recent-article-date text-muted small">
+                                <i class="far fa-calendar-alt me-1"></i>{{ recent_article.created_at|date:"d M, Y" }}
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="sidebar-widget mb-4 p-4 bg-white rounded shadow-sm">
+                <h4 class="widget-title mb-3">Categorías</h4>
+                <ul class="list-group list-group-flush">
+                    {% for category in categories %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0">
+                        <a href="{% url 'articles' %}?category={{ category.slug }}" class="text-decoration-none">{{ category.name }}</a>
+                        <span class="badge bg-primary rounded-pill">{{ category.article_count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Subscribe Widget -->
+            <div class="sidebar-widget mb-4 p-4 bg-primary text-white rounded shadow-sm">
+                <h4 class="widget-title mb-3">Suscríbete al boletín</h4>
+                <p>Recibe las últimas noticias, ofertas y consejos directamente en tu correo electrónico.</p>
+                <form id="subscribeForm" action="{% url 'subscribe' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="subscriberEmail" name="email" placeholder="Tu correo electrónico" required>
+                    </div>
+                    <button type="submit" class="btn btn-light w-100">Suscribirse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Articles -->
+    <section class="related-articles mt-5">
+        <h3 class="mb-4">Artículos relacionados</h3>
+        <div class="row">
+            {% for related in related_articles %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if related.image %}
+                    <img src="{{ related.image.url }}" class="card-img-top" alt="{{ related.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related.title }}</h5>
+                        <p class="card-text text-muted">{{ related.content|striptags|truncatewords:15 }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'article_detail' related.id %}" class="btn btn-sm btn-outline-primary">Leer más</a>
+                        <small class="text-muted float-end">{{ related.created_at|date:"d M, Y" }}</small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-muted">No hay artículos relacionados disponibles.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Comment form validation
+    const commentForm = document.getElementById('commentForm');
+    if (commentForm) {
+        commentForm.addEventListener('submit', function(event) {
+            const name = document.getElementById('commentName').value.trim();
+            const email = document.getElementById('commentEmail').value.trim();
+            const content = document.getElementById('commentContent').value.trim();
+            
+            if (!name || !email || !content) {
+                event.preventDefault();
+                alert('Por favor completa todos los campos para comentar.');
+                return false;
+            }
+            
+            // Basic email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                event.preventDefault();
+                alert('Por favor ingresa un correo electrónico válido.');
+                return false;
+            }
+        });
+    }
+    
+    // Subscribe form validation
+    const subscribeForm = document.getElementById('subscribeForm');
+    if (subscribeForm) {
+        subscribeForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('subscriberEmail').value.trim();
+            
+            if (!email) {
+                alert('Por favor ingresa tu correo electrónico.');
+                return false;
+            }
+            
+            // Basic email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Por favor ingresa un correo electrónico válido.');
+                return false;
+            }
+            
+            // Submit form via AJAX
+            fetch(subscribeForm.action, {
+                method: 'POST',
+                body: new FormData(subscribeForm),
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: '¡Gracias por suscribirte!',
+                        text: 'Recibirás nuestro boletín con las últimas novedades.',
+                        icon: 'success',
+                        confirmButtonText: 'Entendido'
+                    });
+                    subscribeForm.reset();
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: data.error || 'Ha ocurrido un error. Por favor intenta nuevamente.',
+                        icon: 'error',
+                        confirmButtonText: 'Cerrar'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ha ocurrido un error. Por favor intenta nuevamente.',
+                    icon: 'error',
+                    confirmButtonText: 'Cerrar'
+                });
+            });
+        });
+    }
+});
+</script>
+{% endblock %}
