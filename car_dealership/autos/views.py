@@ -98,9 +98,14 @@ def articles(request):
 
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
-    return render(request, 'article_detail.html', {'article': article})
-
-
+    comments = article.comments.all().order_by('-created_at')
+    comments_count = comments.count()
+    
+    return render(request, 'article_detail.html', {
+        'article': article,
+        'comments': comments,
+        'comments_count': comments_count,
+    })
 
 def contact(request):
     if request.method == 'POST':

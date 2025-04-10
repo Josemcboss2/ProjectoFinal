@@ -1,12 +1,20 @@
 from django.db import models
 
 class Car(models.Model):
+    CATEGORY_CHOICES = [
+        ('sedan', 'Sedán'),
+        ('suv', 'SUV'),
+        ('sports', 'Deportivo'),
+        ('pickup', 'Pickup')
+    ]
+    
     brand = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
     year = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
-    image_url = models.URLField(max_length=500, blank=True, null=True)  # Solo se usará este campo para imágenes
+    image_url = models.URLField(max_length=500, blank=True, null=True)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, null=True, blank=True)
     
     def __str__(self):
         return f"{self.year} {self.brand} {self.model}"

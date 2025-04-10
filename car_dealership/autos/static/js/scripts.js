@@ -70,3 +70,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Animaciones al hacer scroll
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar clase animate-on-scroll a elementos que queremos animar
+    const elements = [
+        '.card',
+        '.article-content',
+        '.comment',
+        '.sidebar-widget',
+        '.recent-article',
+        '.category-item',
+        'h1, h2, h3',
+        '.btn-primary',
+        '.form-control'
+    ];
+
+    elements.forEach((selector, index) => {
+        document.querySelectorAll(selector).forEach(element => {
+            element.classList.add('animate-on-scroll');
+            // Agregar retardos diferentes para crear un efecto cascada
+            element.style.transitionDelay = `${index * 0.1}s`;
+        });
+    });
+
+    // Función para verificar si un elemento está en el viewport
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+            rect.bottom >= 0
+        );
+    }
+
+    // Función para animar elementos cuando son visibles
+    function animateOnScroll() {
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            if (isElementInViewport(element)) {
+                element.classList.add('visible');
+            }
+        });
+    }
+
+    // Ejecutar animación al cargar y al hacer scroll
+    animateOnScroll();
+    window.addEventListener('scroll', animateOnScroll, { passive: true });
+    window.addEventListener('resize', animateOnScroll, { passive: true });
+});
